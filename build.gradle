@@ -1,0 +1,45 @@
+// $bbnors root build.
+// Every module is plain Java 21 with zero runtime dependencies.
+// Tests use JUnit 4 (junit:junit + hamcrest-core), the only third-party artifacts in the build.
+
+subprojects {
+    apply plugin: 'java-library'
+
+    group = 'org.bbnors'
+    version = '0.1.0-SNAPSHOT'
+
+    java {
+        toolchain { languageVersion = JavaLanguageVersion.of(21) }
+        withSourcesJar()
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation 'junit:junit:4.13.2'
+        testImplementation 'org.hamcrest:hamcrest-core:1.3'
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+        options.compilerArgs += ['-Xlint:all,-serial,-processing,-this-escape', '-Werror']
+        options.release = 21
+    }
+
+    tasks.withType(Javadoc).configureEach {
+        options.encoding = 'UTF-8'
+        (options as StandardJavadocDocletOptions).addBooleanOption('Xdoclint:none', true)
+    }
+
+    test {
+        useJUnit()
+        systemProperty 'java.awt.headless', 'true'
+        maxHeapSize = '512m'
+        testLogging {
+            events 'failed'
+            exceptionFormat 'full'
+        }
+    }
+}

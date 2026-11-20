@@ -1,0 +1,18 @@
+apply plugin: 'application'
+description = 'Movement lab: Swing visualizer, headless renderer, exporters and benchmark harness.'
+dependencies {
+    implementation project(':bbnors-motion')
+    implementation project(':bbnors-engine')
+    implementation project(':bbnors-api')
+}
+application {
+    mainClass = 'org.bbnors.lab.LabMain'
+}
+tasks.register('bench', JavaExec) {
+    group = 'verification'
+    description = 'Runs the benchmark suite and writes results to bench-results/.'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.bbnors.lab.LabMain'
+    args 'bench', '--out', "${rootDir}/bench-results"
+    jvmArgs '-Xms256m', '-Xmx256m', '-XX:+UseSerialGC'
+}

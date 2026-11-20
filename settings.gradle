@@ -1,0 +1,8 @@
+rootProject.name = 'bbnors'
+
+include 'bbnors-core'
+include 'bbnors-motion'
+include 'bbnors-engine'
+include 'bbnors-api'
+include 'bbnors-lab'
+include 'bbnors-examples'

@@ -1,0 +1,2 @@
+description = 'Pure movement mathematics: paths, timing laws, trajectories, profiles. No threads, no I/O.'
+dependencies { api project(':bbnors-core') }

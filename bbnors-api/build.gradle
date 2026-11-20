@@ -1,0 +1,2 @@
+description = 'Scripting API: game model abstraction, queries, managers, pathfinding, script runtime, simulated backend.'
+dependencies { api project(':bbnors-engine') }
