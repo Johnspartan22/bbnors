@@ -1,5 +1,7 @@
 # Roadmap
 
+> **Pending:** [OSRS_DIRECTION.md](OSRS_DIRECTION.md) proposes the OSRS-specific product roadmap (phases 0-9). Once approved, it replaces the prioritized table below.
+
 ## Status
 
 | Area | Status |

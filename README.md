@@ -80,6 +80,7 @@ System.out.println(MotionMetrics.of(s, m.end(), null));   // duration, peak spee
 
 | | |
 |---|---|
+| [OSRS_DIRECTION](docs/OSRS_DIRECTION.md) | **proposal:** OSRS product direction, honest assessment, gap analysis, phased roadmap |
 | [DEVELOPER_GUIDE](docs/DEVELOPER_GUIDE.md) | **start here**: rules, writing scripts, backends, extending movement/engine, adding modules |
 | [SCRIPTING](docs/SCRIPTING.md) | ScriptContext, TaskScript, TreeScript, runner lifecycle, registration |
 | [ARCHITECTURE](docs/ARCHITECTURE.md) | modules, scope boundary, decisions (ADRs), threading |
