@@ -28,7 +28,7 @@ configurable simulation feature.
 
 ## 2. Where the project stands (measured on commit `06f192d`)
 
-### Code distribution (main sources, 10,179 lines)
+### Code distribution (main sources, 11,179 lines)
 
 | Module / package | Lines | OSRS-specific? |
 |---|---:|---|
@@ -41,8 +41,9 @@ configurable simulation feature.
 | `bbnors-api` `sim` | 872 | **yes**, but minimal |
 | `bbnors-examples` | 187 | yes (woodcutter, chicken fighter) |
 
-**Roughly 25% of the code is OSRS-specific.** The interaction core (about 60%) is the most mature
-part. That's the reverse of the product's priorities.
+**About 23% of the code (2,533 lines) is OSRS-specific.** The interaction core (core, motion,
+engine) is 52%, and 71% including the movement lab. It's also the most mature part. That's the
+reverse of the product's priorities.
 
 ### OSRS framework surface: coverage
 
