@@ -26,7 +26,13 @@ public interface Entity {
     boolean valid();
 
     default boolean hasAction(String action) {
-        return actions().stream().anyMatch(a -> a.equalsIgnoreCase(action));
+        List<String> a = actions();
+        for (int i = 0, n = a.size(); i < n; i++) {
+            if (a.get(i).equalsIgnoreCase(action)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     default boolean onScreen() {

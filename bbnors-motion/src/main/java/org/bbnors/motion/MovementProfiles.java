@@ -48,7 +48,7 @@ public final class MovementProfiles {
                 .fittsA(0.100).fittsB(0.130).endpointSpread(0.22).overshootChance(0.08).build());
         out.add(MovementProfile.builder("fast")
                 .curvature(0.10).jitter(0.4).peak(0.45).sharpness(9)
-                .fittsA(0.050).fittsB(0.085).endpointSpread(0.45).overshootChance(0.22).overshootFraction(0.08).build());
+                .fittsA(0.050).fittsB(0.085).endpointSpread(0.45).overshootChance(0.22).overshootFraction(0.05).build());
         out.add(MovementProfile.builder("smooth-spline")
                 .path(MovementProfile.PathKind.CATMULL_ROM).waypoints(2).curvature(0.14)
                 .law(MovementProfile.LawKind.MINIMUM_JERK).overshootChance(0).build());

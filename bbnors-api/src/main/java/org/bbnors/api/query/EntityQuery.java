@@ -4,7 +4,6 @@ import org.bbnors.api.model.Entity;
 import org.bbnors.api.model.Tile;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -39,8 +38,14 @@ public final class EntityQuery<T extends Entity> {
     }
 
     public EntityQuery<T> name(String... names) {
-        List<String> n = Arrays.asList(names);
-        return where(e -> n.stream().anyMatch(x -> x.equalsIgnoreCase(e.name())));
+        String[] n = names.clone();
+        return where(e -> {
+            String en = e.name();
+            for (String x : n) {
+                if (x.equalsIgnoreCase(en)) return true;
+            }
+            return false;
+        });
     }
 
     public EntityQuery<T> nameContains(String part) {
