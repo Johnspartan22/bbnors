@@ -225,3 +225,55 @@ A	docs/images/compare-overshoot.png
 ```
 
 </details>
+
+## `38fdfd85830a6b60e14d6334abc1b24b0b7c15ad`
+
+**Consolidate: script registry, batch profile evaluation, documentation**  
+2026-11-20 23:35:25 -0500 · 40 files changed, 4905 insertions(+), 46 deletions(-)
+
+<details><summary>Files</summary>
+
+```
+M	README.md
+A	bbnors-api/src/main/java/org/bbnors/api/script/ScriptManifest.java
+A	bbnors-api/src/main/java/org/bbnors/api/script/ScriptRegistry.java
+A	bbnors-api/src/test/java/org/bbnors/api/ScriptRegistryTest.java
+M	bbnors-engine/src/main/java/org/bbnors/engine/input/AwtComponentBackend.java
+A	bbnors-engine/src/test/java/org/bbnors/engine/AwtComponentBackendTest.java
+M	bbnors-examples/build.gradle
+M	bbnors-examples/src/main/java/org/bbnors/examples/ChickenFighter.java
+M	bbnors-examples/src/main/java/org/bbnors/examples/RunExample.java
+M	bbnors-examples/src/main/java/org/bbnors/examples/Woodcutter.java
+A	bbnors-examples/src/main/resources/META-INF/services/org.bbnors.api.script.Script
+A	bbnors-examples/src/test/java/org/bbnors/examples/DocSnippetsTest.java
+M	bbnors-examples/src/test/java/org/bbnors/examples/ExamplesTest.java
+M	bbnors-lab/build.gradle
+A	bbnors-lab/src/main/java/org/bbnors/lab/EvaluationRenderer.java
+M	bbnors-lab/src/main/java/org/bbnors/lab/LabMain.java
+M	bbnors-lab/src/main/java/org/bbnors/lab/LabWindow.java
+A	bbnors-lab/src/main/java/org/bbnors/lab/ProfileEvaluator.java
+M	bbnors-lab/src/test/java/org/bbnors/lab/LabTest.java
+A	docs/API_INVENTORY.md
+M	docs/ARCHITECTURE.md
+A	docs/COMMIT_HISTORY.md
+M	docs/CONFIGURATION.md
+A	docs/DEVELOPER_GUIDE.md
+M	docs/GAME_CLIENT.md
+M	docs/IMPLEMENTATION_LOG.md
+A	docs/MODULES.md
+A	docs/MOVEMENT_DEFAULTS.md
+M	docs/MOVEMENT_VISUALIZATION.md
+M	docs/ROADMAP.md
+A	docs/SCRIPTING.md
+A	docs/SIMULATOR.md
+A	docs/STATUS.md
+M	docs/TESTING.md
+A	docs/evaluation/presets-report.json
+A	docs/evaluation/presets-report.md
+A	docs/images/evaluation-spline-wind-linear.png
+A	docs/images/evaluation-standard-precise-fast.png
+A	tools/api-inventory.sh
+A	tools/commit-history.sh
+```
+
+</details>
