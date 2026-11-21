@@ -1,0 +1,201 @@
+{
+  "timestamp": "2026-11-21T04:06:22.137617373Z",
+  "environment": {
+    "java": "OpenJDK 64-Bit Server VM 21.0.13.0.3",
+    "os": "Linux amd64",
+    "cpus": 2,
+    "max_heap_mb": 247,
+    "gc": ["Copy", "MarkSweepCompact"]
+  },
+  "micro": [{
+      "group": "motion",
+      "name": "plan/fast",
+      "ns_per_op_median": 10917.9,
+      "ns_per_op_p10": 10621.6,
+      "ns_per_op_p90": 11445.1,
+      "bytes_per_op": 4198.57,
+      "ops_per_batch": 4241,
+      "note": "planner.plan(): aim point, Fitts duration, geometry, arc-length table"
+    }, {
+      "group": "motion",
+      "name": "plan/linear-baseline",
+      "ns_per_op_median": 5248.88,
+      "ns_per_op_p10": 5160.79,
+      "ns_per_op_p90": 5571.44,
+      "bytes_per_op": 3320,
+      "ops_per_batch": 11074,
+      "note": "planner.plan(): aim point, Fitts duration, geometry, arc-length table"
+    }, {
+      "group": "motion",
+      "name": "plan/precise",
+      "ns_per_op_median": 9628.24,
+      "ns_per_op_p10": 9527.73,
+      "ns_per_op_p90": 9760.21,
+      "bytes_per_op": 3841.39,
+      "ops_per_batch": 5957,
+      "note": "planner.plan(): aim point, Fitts duration, geometry, arc-length table"
+    }, {
+      "group": "motion",
+      "name": "plan/smooth-spline",
+      "ns_per_op_median": 12767.2,
+      "ns_per_op_p10": 12364.6,
+      "ns_per_op_p90": 13119.1,
+      "bytes_per_op": 4004.03,
+      "ops_per_batch": 4367,
+      "note": "planner.plan(): aim point, Fitts duration, geometry, arc-length table"
+    }, {
+      "group": "motion",
+      "name": "plan/standard",
+      "ns_per_op_median": 11077.6,
+      "ns_per_op_p10": 10857.2,
+      "ns_per_op_p90": 11680.2,
+      "bytes_per_op": 4152.82,
+      "ops_per_batch": 5268,
+      "note": "planner.plan(): aim point, Fitts duration, geometry, arc-length table"
+    }, {
+      "group": "motion",
+      "name": "plan/wind",
+      "ns_per_op_median": 16852.1,
+      "ns_per_op_p10": 16533.5,
+      "ns_per_op_p90": 17102.5,
+      "bytes_per_op": 6324.51,
+      "ops_per_batch": 2382,
+      "note": "planner.plan(): aim point, Fitts duration, geometry, arc-length table"
+    }, {
+      "group": "motion",
+      "name": "arc-length/build-32",
+      "ns_per_op_median": 2467.23,
+      "ns_per_op_p10": 2416.92,
+      "ns_per_op_p90": 2485.29,
+      "bytes_per_op": 992,
+      "ops_per_batch": 24404,
+      "note": "ArcLengthTable for a cubic Bezier, 32 intervals"
+    }, {
+      "group": "motion",
+      "name": "arc-length/build-64",
+      "ns_per_op_median": 4821.86,
+      "ns_per_op_p10": 4699.42,
+      "ns_per_op_p90": 4890.01,
+      "bytes_per_op": 1760,
+      "ops_per_batch": 12543,
+      "note": "ArcLengthTable for a cubic Bezier, 64 intervals"
+    }, {
+      "group": "motion",
+      "name": "arc-length/build-128",
+      "ns_per_op_median": 9485.59,
+      "ns_per_op_p10": 9327.91,
+      "ns_per_op_p90": 9579.20,
+      "bytes_per_op": 3296,
+      "ops_per_batch": 6374,
+      "note": "ArcLengthTable for a cubic Bezier, 128 intervals"
+    }, {
+      "group": "motion",
+      "name": "state/evaluate",
+      "ns_per_op_median": 179.344,
+      "ns_per_op_p10": 178.341,
+      "ns_per_op_p90": 183.785,
+      "bytes_per_op": 24,
+      "ops_per_batch": 312710,
+      "note": "one Motion.state(t): position, velocity, acceleration, curvature"
+    }, {
+      "group": "motion",
+      "name": "sample/baseline-new-buffer",
+      "ns_per_op_median": 26785.0,
+      "ns_per_op_p10": 26247.9,
+      "ns_per_op_p90": 27062.2,
+      "bytes_per_op": 11008,
+      "ops_per_batch": 2161,
+      "note": "MotionSampler.sample at 200 Hz into a fresh buffer"
+    }, {
+      "group": "motion",
+      "name": "sample/optimized-reused-buffer",
+      "ns_per_op_median": 25583.2,
+      "ns_per_op_p10": 24937.0,
+      "ns_per_op_p90": 25982.1,
+      "bytes_per_op": 120,
+      "ops_per_batch": 2411,
+      "note": "same, reusing one TrajectorySamples"
+    }, {
+      "group": "path",
+      "name": "astar/baseline-reference",
+      "ns_per_op_median": 1025687,
+      "ns_per_op_p10": 795224,
+      "ns_per_op_p90": 3.11534e+06,
+      "bytes_per_op": 756739,
+      "ops_per_batch": 1,
+      "note": "textbook A* (HashMap/PriorityQueue), ~45-tile diagonal, 22% obstacles"
+    }, {
+      "group": "path",
+      "name": "astar/optimized-grid",
+      "ns_per_op_median": 313114,
+      "ns_per_op_p10": 297812,
+      "ns_per_op_p90": 321839,
+      "bytes_per_op": 364816,
+      "ops_per_batch": 175,
+      "note": "GridPathFinder (primitive arrays, generation stamps, indexed heap), same maps"
+    }, {
+      "group": "path",
+      "name": "astar/optimized-grid-open",
+      "ns_per_op_median": 3260.04,
+      "ns_per_op_p10": 3202.32,
+      "ns_per_op_p90": 3342.23,
+      "bytes_per_op": 1616,
+      "ops_per_batch": 17639,
+      "note": "GridPathFinder, open field, 40 tiles"
+    }, {
+      "group": "state",
+      "name": "query/baseline-uncached",
+      "ns_per_op_median": 1676.40,
+      "ns_per_op_p10": 1635.33,
+      "ns_per_op_p90": 1724.27,
+      "bytes_per_op": 1720,
+      "ops_per_batch": 24257,
+      "note": "5 object queries per op straight from the client (list copied each call)"
+    }, {
+      "group": "state",
+      "name": "query/optimized-tick-cached",
+      "ns_per_op_median": 1746.15,
+      "ns_per_op_p10": 1707.03,
+      "ns_per_op_p90": 1792.39,
+      "bytes_per_op": 5480,
+      "ops_per_batch": 27388,
+      "note": "same 5 queries through GameState (one fetch per game tick)"
+    }, {
+      "group": "engine",
+      "name": "manager/submit-sync",
+      "ns_per_op_median": 199.064,
+      "ns_per_op_p10": 195.756,
+      "ns_per_op_p90": 211.373,
+      "bytes_per_op": 352,
+      "ops_per_batch": 101552,
+      "note": "submit+run+complete a no-op operation (synchronous executor)"
+    }, {
+      "group": "engine",
+      "name": "bus/publish-no-subscribers",
+      "ns_per_op_median": 2.16273,
+      "ns_per_op_p10": 2.10760,
+      "ns_per_op_p90": 2.46984,
+      "bytes_per_op": 0,
+      "ops_per_batch": 28717969,
+      "note": "EventBus.publish with no subscribers"
+    }, {
+      "group": "engine",
+      "name": "bus/publish-3-subscribers",
+      "ns_per_op_median": 27.1592,
+      "ns_per_op_p10": 26.7444,
+      "ns_per_op_p90": 27.7882,
+      "bytes_per_op": 16,
+      "ops_per_batch": 1808346,
+      "note": "EventBus.publish with 3 subscribers"
+    }],
+  "macro": {
+    "scenario": "woodcutter, 400 script loops, seed 2024 (deterministic)",
+    "simulated_seconds": 215.400,
+    "wall_ms": 40.6000,
+    "speedup_vs_real_time": 5306,
+    "input_events": 2691,
+    "logs_chopped": 61,
+    "items_banked": 54,
+    "mean_loop_ms_wall": 0.0970000
+  }
+}

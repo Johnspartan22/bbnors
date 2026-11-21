@@ -64,11 +64,26 @@ public final class LabMain {
                 System.out.println("\nend-to-end: " + s.macro());
                 System.out.println("wrote " + out.resolve("results.md") + " and results.json");
             }
+            case "config-docs" -> System.out.print(configDocs());
             default -> {
-                System.err.println("unknown command '" + cmd + "' (gui | render | compare | bench)");
+                System.err.println("unknown command '" + cmd + "' (gui | render | compare | bench | config-docs)");
                 System.exit(2);
             }
         }
+    }
+
+    /** Configuration reference generated from the live schemas, so docs cannot drift from code. */
+    static String configDocs() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("## Engine and script settings\n\n");
+        sb.append(org.bbnors.api.sim.Simulation.schema().toMarkdown()).append('\n');
+        sb.append("## Movement profile fields (`profile.<name>.<field>`)\n\n");
+        sb.append(org.bbnors.motion.ProfileCodec.fieldsMarkdown()).append('\n');
+        sb.append("## Built-in movement profiles\n\n```properties\n");
+        sb.append(org.bbnors.motion.ProfileCodec.format(new MovementProfiles().all())).append("```\n\n");
+        sb.append("## Timing profiles (`timing.<name>.<field>`, fields: kind, center, spread, min, max)\n\n");
+        sb.append(new org.bbnors.engine.timing.TimingProfiles().toMarkdown());
+        return sb.toString();
     }
 
     static ChartRenderer renderer(Map<String, String> opt) {

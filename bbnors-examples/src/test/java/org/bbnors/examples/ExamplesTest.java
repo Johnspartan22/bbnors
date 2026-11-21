@@ -22,6 +22,21 @@ public class ExamplesTest {
     }
 
     @Test
+    public void shippedExampleConfigurationLoadsWithoutProblems() throws Exception {
+        java.nio.file.Path cfgFile = java.nio.file.Path.of("../config/bbnors.example.properties");
+        org.bbnors.core.config.Config cfg = org.bbnors.core.config.Config.load(Simulation.schema(), cfgFile);
+        assertTrue(cfg.problems().toString(), cfg.problems().isEmpty());
+        java.util.Properties p = new java.util.Properties();
+        try (var r = java.nio.file.Files.newBufferedReader(java.nio.file.Path.of("../config/profiles.example.properties"))) {
+            p.load(r);
+        }
+        org.bbnors.motion.MovementProfiles profiles = new org.bbnors.motion.MovementProfiles();
+        assertTrue(profiles.load(p).isEmpty());
+        assertEquals(5, profiles.get("interface").bezierDegree());
+        assertTrue(new org.bbnors.engine.timing.TimingProfiles().load(p).isEmpty());
+    }
+
+    @Test
     public void chickenFighterHitsMovingTargetsAndLoots() {
         for (long seed : new long[]{1, 2}) {
             Simulation sim = Simulation.create(seed);
