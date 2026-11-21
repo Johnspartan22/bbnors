@@ -11,6 +11,14 @@ import static org.junit.Assert.assertTrue;
 public class ExamplesTest {
 
     @Test
+    public void examplesAreDiscoveredThroughServiceLoader() {
+        org.bbnors.api.script.ScriptRegistry r = new org.bbnors.api.script.ScriptRegistry();
+        assertEquals(2, r.discover(getClass().getClassLoader()));
+        assertEquals(java.util.List.of("chickens", "woodcutter"), r.ids());
+        assertTrue(r.create("woodcutter") instanceof Woodcutter);
+    }
+
+    @Test
     public void woodcutterBanksAcrossSeeds() {
         for (long seed : new long[]{1, 2, 3}) {
             Simulation sim = Simulation.create(seed);

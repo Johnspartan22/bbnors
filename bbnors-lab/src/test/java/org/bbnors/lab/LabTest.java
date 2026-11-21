@@ -86,4 +86,39 @@ public class LabTest {
         assertTrue(Files.readString(dir.resolve("results.md")).contains("astar/optimized-grid"));
         assertTrue(s.macro().containsKey("clock_spin_study_200hz"));
     }
+
+    @Test
+    public void evaluatorRecoversExactFittsConstantsWhenRandomnessIsOff() {
+        MovementProfiles p = new MovementProfiles();
+        org.bbnors.motion.MovementProfile det = p.get("standard").toBuilder().name("det")
+                .durationJitter(0).overshootChance(0).endpointSpread(0).build();
+        ProfileEvaluator.ProfileReport r = ProfileEvaluator.evaluate(det, ProfileEvaluator.scenarios(200, 3));
+        assertEquals(det.fittsA(), r.fittedA(), 1e-9);
+        assertEquals(det.fittsB(), r.fittedB(), 1e-9);
+        assertEquals(1.0, r.fitR2(), 1e-9);
+        assertEquals(1.0, r.inTargetRate(), 0);
+        assertEquals(0.0, r.overshootRate(), 0);
+        assertEquals(0.0, r.stats().get("aim_offset").p95(), 1e-9);
+    }
+
+    @Test
+    public void evaluationIsPairedAndComparesPresets() {
+        MovementProfiles p = new MovementProfiles();
+        List<ProfileEvaluator.ProfileReport> rs = ProfileEvaluator.evaluateAll(
+                List.of(p.get("precise"), p.get("fast")), 300, 9);
+        for (int i = 0; i < 300; i++) {
+            assertEquals(rs.get(0).trials().get(i).scenario(), rs.get(1).trials().get(i).scenario());
+        }
+        for (ProfileEvaluator.ProfileReport r : rs) {
+            assertEquals(r.profile().name(), 1.0, r.inTargetRate(), 0);
+            assertEquals(r.profile().name(), 1.0, r.continuityRate(), 0);
+        }
+        // documented behaviour of the presets: precise is slower and aims tighter than fast
+        assertTrue(rs.get(0).stats().get("duration_ms").p50() > rs.get(1).stats().get("duration_ms").p50());
+        assertTrue(rs.get(0).stats().get("aim_offset").p50() < rs.get(1).stats().get("aim_offset").p50());
+        String md = ProfileEvaluator.markdown(rs, 300, 9);
+        assertTrue(md.contains("| precise | 100.0% | 100.0%"));
+        assertTrue(ProfileEvaluator.csv(rs).lines().count() == 601);
+        assertTrue(new EvaluationRenderer(rs, "t").image(1000, 700).getWidth() == 1000);
+    }
 }

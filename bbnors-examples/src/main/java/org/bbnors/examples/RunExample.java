@@ -1,13 +1,16 @@
 package org.bbnors.examples;
 
 import org.bbnors.api.script.Script;
+import org.bbnors.api.script.ScriptRegistry;
 import org.bbnors.api.script.ScriptRunner;
 import org.bbnors.api.sim.Simulation;
 
 /**
- * Runs an example script against the deterministic simulated server and prints a summary.
+ * Runs a registered script against the deterministic simulated server and prints a summary.
+ * Scripts are discovered through {@link ScriptRegistry} (META-INF/services).
  * <pre>
- *   RunExample [woodcutter|chickens] [loops] [seed]
+ *   RunExample list
+ *   RunExample &lt;script-id&gt; [loops] [seed]
  * </pre>
  */
 public final class RunExample {
@@ -16,14 +19,16 @@ public final class RunExample {
     }
 
     public static void main(String[] args) {
+        ScriptRegistry registry = new ScriptRegistry();
+        registry.discover(RunExample.class.getClassLoader());
         String which = args.length > 0 ? args[0] : "woodcutter";
+        if (which.equals("list")) {
+            registry.list().forEach(System.out::println);
+            return;
+        }
         int loops = args.length > 1 ? Integer.parseInt(args[1]) : 300;
         long seed = args.length > 2 ? Long.parseLong(args[2]) : 1;
-        Script script = switch (which) {
-            case "woodcutter" -> new Woodcutter();
-            case "chickens" -> new ChickenFighter();
-            default -> throw new IllegalArgumentException("unknown example " + which);
-        };
+        Script script = registry.create(which);
         Simulation sim = Simulation.create(seed);
         ScriptRunner runner = sim.runner(script);
         long t0 = System.nanoTime();

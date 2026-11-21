@@ -7,6 +7,8 @@ dependencies {
 }
 application {
     mainClass = 'org.bbnors.lab.LabMain'
+    // UTF-8 console output (reports contain ·, µ, ², –) regardless of platform default
+    applicationDefaultJvmArgs = ['-Dstdout.encoding=UTF-8', '-Dstderr.encoding=UTF-8']
 }
 tasks.register('bench', JavaExec) {
     group = 'verification'
@@ -14,5 +16,5 @@ tasks.register('bench', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.bbnors.lab.LabMain'
     args 'bench', '--out', "${rootDir}/bench-results"
-    jvmArgs '-Xms256m', '-Xmx256m', '-XX:+UseSerialGC'
+    jvmArgs '-Xms256m', '-Xmx256m', '-XX:+UseSerialGC', '-Dstdout.encoding=UTF-8'
 }

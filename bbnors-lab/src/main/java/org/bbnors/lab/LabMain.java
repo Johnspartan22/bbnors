@@ -20,7 +20,9 @@ import java.util.Map;
  *   lab                         interactive Swing lab (needs a display)
  *   lab render  [options]       headless comparison: PNG + CSV + JSON + profiles
  *   lab compare [options]       print the metrics table for the chosen profiles
+ *   lab evaluate [--profiles a,b,c] [--trials N] [--seed N] [--profiles-file F] [--out DIR]
  *   lab bench   [--out DIR] [--quick]
+ *   lab config-docs
  *
  * options: --profiles a,b,c  --seed N  --from X,Y  --target X,Y,W,H  --out DIR  --name BASE
  * </pre>
@@ -65,11 +67,45 @@ public final class LabMain {
                 System.out.println("wrote " + out.resolve("results.md") + " and results.json");
             }
             case "config-docs" -> System.out.print(configDocs());
+            case "evaluate" -> evaluate(opt);
             default -> {
                 System.err.println("unknown command '" + cmd + "' (gui | render | compare | bench | config-docs)");
                 System.exit(2);
             }
         }
+    }
+
+    /**
+     * Batch evaluation: every profile on the same seeded scenarios; writes report.md, trials.csv,
+     * report.json and evaluation.png (first three profiles) to the output directory.
+     */
+    static void evaluate(Map<String, String> opt) throws java.io.IOException {
+        MovementProfiles registry = new MovementProfiles();
+        if (opt.containsKey("profiles-file")) {
+            List<String> problems = registry.load(Path.of(opt.get("profiles-file")));
+            problems.forEach(p -> System.err.println("profiles-file: " + p));
+        }
+        String names = opt.getOrDefault("profiles", "standard,precise,fast");
+        int trials = Integer.parseInt(opt.getOrDefault("trials", "500"));
+        long seed = Long.parseLong(opt.getOrDefault("seed", "1"));
+        List<MovementProfile> profiles = new ArrayList<>();
+        for (String n : names.split(",")) profiles.add(registry.get(n.trim()));
+        List<ProfileEvaluator.ProfileReport> reports = ProfileEvaluator.evaluateAll(profiles, trials, seed);
+        Path out = Path.of(opt.getOrDefault("out", "lab-output/evaluation"));
+        java.nio.file.Files.createDirectories(out);
+        String md = ProfileEvaluator.markdown(reports, trials, seed);
+        java.nio.file.Files.writeString(out.resolve("report.md"), md);
+        java.nio.file.Files.writeString(out.resolve("trials.csv"), ProfileEvaluator.csv(reports));
+        java.nio.file.Files.writeString(out.resolve("report.json"),
+                Json.write(Map.of("trials", trials, "seed", seed, "profiles", reports.stream().map(ProfileEvaluator.ProfileReport::asMap).toList())) + "\n");
+        List<ProfileEvaluator.ProfileReport> charted = reports.subList(0, Math.min(ChartRenderer.MAX_RUNS, reports.size()));
+        javax.imageio.ImageIO.write(new EvaluationRenderer(charted, String.format("Profile evaluation · %d paired trials · seed %d", trials, seed)).image(1500, 900),
+                "png", out.resolve("evaluation.png").toFile());
+        System.out.print(md);
+        if (reports.size() > ChartRenderer.MAX_RUNS) {
+            System.out.println("\n(chart shows the first " + ChartRenderer.MAX_RUNS + " profiles; the report and CSV include all)");
+        }
+        System.out.println("\nwrote " + out.toAbsolutePath());
     }
 
     /** Configuration reference generated from the live schemas, so docs cannot drift from code. */

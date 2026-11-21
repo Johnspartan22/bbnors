@@ -5,8 +5,8 @@
 ./gradlew :bbnors-motion:test
 ```
 
-**71 tests, all passing** at the last commit. Engine concurrency tests were also run 5× in a row
-to check for flakiness. 53 tests (core, motion, engine) run without any game backend.
+**80 tests, all passing** at the last commit. Engine concurrency tests were also run 5× in a row
+to check for flakiness. 55 tests (core, motion, engine) run without any game backend.
 
 ## Inventory
 
@@ -18,11 +18,14 @@ to check for flakiness. 53 tests (core, motion, engine) run without any game bac
 | engine | `InputEngineTest` | 7 | playback rate and tick grid, no duplicate events, in-target end; move+click ordering and hold bounds; typing with SHIFT and full release; untypeable characters rejected; camera KEYS convergence under ±25% rate error with simultaneous keys; DRAG and DIRECT modes; config problem reporting |
 | engine | `InteractionManagerTest` | 9 | same-channel serialisation; disjoint channels concurrent; preempt lower priority; no preempt of higher priority; reject; reservation (no overtaking); cancel queued; cancelled key hold releases keys; failure propagation and channel release |
 | engine | `TimingEngineTest` | 8 | wait success/timeout; `stableFor`; `resetWhile`; event wait without polling; manual scheduler ordering and fixed rate; real-time scheduler punctuality; timing-profile bounds and properties overrides |
+| engine | `AwtComponentBackendTest` | 2 | real AWT event stream on a component: enter/move/press/release/click/drag/exit order, button and modifier masks, click suppression after movement; keys with SHIFT modifier and typed characters (`LISTENERS` delivery) |
 | engine | `AdverseConditionsTest` | 2 | every profile under 0/4/12 ms scheduling jitter: in-target, ordered events; slow machine skips frames instead of stretching movements |
 | api | `PathFinderTest` | 3 | optimized A* equals reference cost on 200 random maps with legal steps; no corner cutting, adjacent goals; unreachable + reuse safety |
+| api | `ScriptRegistryTest` | 3 | manifest metadata, fresh instances per `create`, duplicate ids rejected, helpful unknown-id error |
 | api | `SimulationIntegrationTest` | 7 | bank open/close via menu or left click; walking through a fence gap; equip from inventory; tick cache hit/miss accounting; full woodcutter script deterministic across runs with every press released; runner FAILED after repeated errors; threaded runner stop |
-| lab | `LabTest` | 5 | headless rendering with series colours present; palette cap enforced; export artefacts; JSON escaping; harness + full benchmark suite smoke run |
-| examples | `ExamplesTest` | 3 | woodcutter banks across 3 seeds; chicken fighter (moving targets) attacks and loots across 2 seeds; shipped example config files load with zero problems |
+| lab | `LabTest` | 7 | headless rendering with series colours present; palette cap enforced; export artefacts; JSON escaping; harness + full benchmark suite smoke run; evaluator recovers exact Fitts constants with randomness off; paired evaluation of presets (identical scenarios, 100% in target/continuity, precise slower and tighter than fast) |
+| examples | `ExamplesTest` | 4 | ServiceLoader discovery of both examples; woodcutter banks across 3 seeds; chicken fighter (moving targets) attacks and loots across 2 seeds; shipped example config files load with zero problems |
+| examples | `DocSnippetsTest` | 1 | the code samples in SCRIPTING.md compile, register and run |
 
 ## Scenario coverage (requirement: "different conditions")
 

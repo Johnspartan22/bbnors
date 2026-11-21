@@ -48,7 +48,7 @@ Settings load from a `.properties` file (`Config.load(schema, path)`). Invalid v
 ## Built-in movement profiles
 
 ```properties
-# fast[bezier/beta(4.15,4.85), fitts=0.050+0.085?ID]
+# fast[bezier/beta(4.15,4.85), fitts=0.050+0.085·ID]
 profile.fast.bezier-degree = 3
 profile.fast.correction-pause = 0.045
 profile.fast.curvature = 0.1
@@ -69,7 +69,7 @@ profile.fast.sample-rate-hz = 200
 profile.fast.sharpness = 9
 profile.fast.waypoints = 2
 
-# linear-baseline[linear/linear, fitts=0.080+0.110?ID]
+# linear-baseline[linear/linear, fitts=0.080+0.110·ID]
 profile.linear-baseline.bezier-degree = 3
 profile.linear-baseline.correction-pause = 0.045
 profile.linear-baseline.curvature = 0
@@ -90,7 +90,7 @@ profile.linear-baseline.sample-rate-hz = 200
 profile.linear-baseline.sharpness = 7
 profile.linear-baseline.waypoints = 2
 
-# precise[bezier/beta(3.16,4.84), fitts=0.100+0.130?ID]
+# precise[bezier/beta(3.16,4.84), fitts=0.100+0.130·ID]
 profile.precise.bezier-degree = 3
 profile.precise.correction-pause = 0.045
 profile.precise.curvature = 0.07
@@ -111,7 +111,7 @@ profile.precise.sample-rate-hz = 200
 profile.precise.sharpness = 8
 profile.precise.waypoints = 2
 
-# smooth-spline[catmull_rom/minimum-jerk, fitts=0.080+0.110?ID]
+# smooth-spline[catmull_rom/minimum-jerk, fitts=0.080+0.110·ID]
 profile.smooth-spline.bezier-degree = 3
 profile.smooth-spline.correction-pause = 0.045
 profile.smooth-spline.curvature = 0.14
@@ -132,7 +132,7 @@ profile.smooth-spline.sample-rate-hz = 200
 profile.smooth-spline.sharpness = 7
 profile.smooth-spline.waypoints = 2
 
-# standard[bezier/beta(3.10,3.90), fitts=0.080+0.110?ID]
+# standard[bezier/beta(3.10,3.90), fitts=0.080+0.110·ID]
 profile.standard.bezier-degree = 3
 profile.standard.correction-pause = 0.045
 profile.standard.curvature = 0.12
@@ -153,7 +153,7 @@ profile.standard.sample-rate-hz = 200
 profile.standard.sharpness = 7
 profile.standard.waypoints = 2
 
-# wind[wind/beta(3.10,3.90), fitts=0.080+0.110?ID]
+# wind[wind/beta(3.10,3.90), fitts=0.080+0.110·ID]
 profile.wind.bezier-degree = 3
 profile.wind.correction-pause = 0.045
 profile.wind.curvature = 0.35

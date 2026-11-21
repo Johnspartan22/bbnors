@@ -20,7 +20,7 @@ bbnors-api       GameClient SPI, GameState cache, queries, managers, pathfinding
 ```
 
 Dependencies point one way. `core`, `motion` and `engine` never import anything game-related;
-they are tested without any backend (53 of the 71 tests). Every module has zero third-party
+they are tested without any backend (55 of the 80 tests). Every module has zero third-party
 runtime dependencies; tests use JUnit 4.
 
 ## 2. Scope boundary (what is deliberately not implemented)
@@ -50,7 +50,7 @@ the included simulator or a server-side bridge that only a server you run can pr
 | Camera Interaction Engine | `engine.camera.CameraController` (+ `CameraModel`, `SimulatedCamera`) |
 | Interaction State Manager | `engine.interact.InteractionManager` |
 | Movement Visualization Engine | `bbnors-lab` (`LabWindow`, `ChartRenderer`, `Exporter`) |
-| Testing & Benchmarking Engine | JUnit suites per module; `lab.bench.*` |
+| Testing & Benchmarking Engine | JUnit suites per module; `lab.bench.*`; `lab.ProfileEvaluator` (batch profile evaluation) |
 
 ## 4. Architectural decisions
 
@@ -104,6 +104,17 @@ is used by the Swing lab and the PNG exporter, so exports are exactly what was i
 **ADR-10: Measure before optimising; record negative results.** See `PERFORMANCE.md`. Examples:
 the playback spin-wait default was removed after measurement; planning (~11 µs per movement) was
 deliberately *not* optimised because it is ~0.02% of a movement's duration.
+
+**ADR-11: Script registration through `ServiceLoader`.** Scripts are discovered from
+`META-INF/services/org.bbnors.api.script.Script` and described by an optional `@ScriptManifest`.
+*Alternatives:* classpath scanning (needs a library or fragile custom code), a hand-maintained
+registry class (couples every script to one file). *Reason:* standard JDK mechanism, no
+dependency, works for scripts in separate jars; discovery reads only class metadata and
+`create(id)` builds a fresh instance per run.
+
+**ADR-12: Evaluate profiles on paired scenarios.** `ProfileEvaluator` runs every profile on the
+same seeded scenarios and validates itself (exact Fitts recovery with randomness disabled).
+Computational cost is measured only by the benchmark harness, never inside analysis loops.
 
 ## 5. Threading model
 

@@ -2,6 +2,7 @@ package org.bbnors.examples;
 
 import org.bbnors.api.model.GameObject;
 import org.bbnors.api.script.ScriptContext;
+import org.bbnors.api.script.ScriptManifest;
 import org.bbnors.api.script.TaskScript;
 import org.bbnors.engine.timing.TimingProfiles;
 
@@ -15,6 +16,8 @@ import java.util.Optional;
  * managers ({@code bank()}, {@code walking()}), menu-aware {@code interact}, and conditional waits
  * instead of fixed sleeps. No delay literals: pauses come from named timing profiles.
  */
+@ScriptManifest(id = "woodcutter", name = "Woodcutter", category = "example",
+        description = "Chops the nearest tree and banks the logs when the inventory is full.")
 public final class Woodcutter extends TaskScript {
 
     private int trips;

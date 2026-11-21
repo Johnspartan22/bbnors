@@ -3,6 +3,7 @@ package org.bbnors.examples;
 import org.bbnors.api.model.GroundItem;
 import org.bbnors.api.model.Npc;
 import org.bbnors.api.script.ScriptContext;
+import org.bbnors.api.script.ScriptManifest;
 import org.bbnors.api.script.TreeScript;
 import org.bbnors.engine.timing.TimingProfiles;
 
@@ -19,6 +20,8 @@ import java.util.Optional;
  *    └── wait      otherwise                      → short reaction pause
  * </pre>
  */
+@ScriptManifest(id = "chickens", name = "Chicken fighter", category = "example",
+        description = "Attacks wandering chickens and picks up the feathers they drop.")
 public final class ChickenFighter extends TreeScript {
 
     private final Node root = branch("root", c -> true,

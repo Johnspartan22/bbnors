@@ -103,3 +103,42 @@ Newest last. Times are America/New_York. Test counts are cumulative and were run
   as 0.38 px. Re-measured at 1.0 px and corrected.
 - **Test added:** shipped example configuration loads with zero problems → **71 tests**.
 - **Known limitations / outstanding work:** see ROADMAP.md.
+
+## 2026-11-20 · Consolidation: inventory, registration, evaluation, documentation
+
+Requested: inventory, commit history, scripting and simulator documentation, maturity status,
+review of movement defaults, independent profile evaluation, developer guide, no server bridge
+until environment and authorization are confirmed, no rewrites of working components.
+
+- **Created:**
+  - `bbnors-api`: `script/ScriptManifest`, `script/ScriptRegistry`; test `ScriptRegistryTest`.
+  - `bbnors-lab`: `ProfileEvaluator`, `EvaluationRenderer`; `evaluate` CLI command; **Evaluate**
+    button in `LabWindow`.
+  - `bbnors-engine` test: `AwtComponentBackendTest`.
+  - `bbnors-examples`: `META-INF/services/org.bbnors.api.script.Script`; tests `DocSnippetsTest`,
+    discovery test.
+  - `tools/api-inventory.sh`, `tools/commit-history.sh`.
+  - Docs: MODULES, API_INVENTORY (generated), COMMIT_HISTORY (generated), SCRIPTING, SIMULATOR,
+    STATUS, MOVEMENT_DEFAULTS, DEVELOPER_GUIDE, `docs/evaluation/presets-report.{md,json}`, two
+    evaluation figures.
+- **Modified (additive only):**
+  - `AwtComponentBackend`: explicit `KeyDelivery` (`DISPATCH` default, unchanged behaviour;
+    `LISTENERS` new).
+  - `Woodcutter`, `ChickenFighter`: `@ScriptManifest`.
+  - `RunExample`: uses the registry; `list` command.
+  - `LabMain`: `evaluate` command.
+  - Docs: README, ARCHITECTURE (ADR-11, ADR-12), GAME_CLIENT, MOVEMENT_VISUALIZATION, ROADMAP
+    (prioritized list; bridge on hold), TESTING.
+- **Findings:**
+  - Key events dispatched with `Component.dispatchEvent` are retargeted by AWT's
+    `KeyboardFocusManager` to the focus owner and dropped when nothing has focus. Documented, and
+    the selectable `LISTENERS` delivery was added.
+  - `wind` preset is straighter than `standard` (straightness 0.996 vs 0.982). Recorded as open (P3);
+    behaviour not changed.
+  - Fitted Fitts slopes exceed configured slopes by 9-13% for profiles with overshoot (expected).
+  - Per-call timing inside the evaluator was unreliable (12-35 µs for the same work), so it was
+    removed; cost belongs to the benchmark harness.
+- **Doc corrections found while reviewing against code:** simulator stacking rules; menu-aim
+  geometry; evaluation trial counts in STATUS.
+- **Tests:** 80 passing (core 8, motion 19, engine 28, api 13, lab 7, examples 5).
+- **Not done (by request):** server bridge.

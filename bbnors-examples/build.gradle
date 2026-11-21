@@ -1,4 +1,7 @@
 apply plugin: 'application'
 description = 'Example scripts running against the simulated backend.'
 dependencies { implementation project(':bbnors-api') }
-application { mainClass = 'org.bbnors.examples.RunExample' }
+application {
+    mainClass = 'org.bbnors.examples.RunExample'
+    applicationDefaultJvmArgs = ['-Dstdout.encoding=UTF-8', '-Dstderr.encoding=UTF-8']
+}

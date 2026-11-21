@@ -16,10 +16,22 @@ import java.util.concurrent.atomic.AtomicInteger;
  * {@code getModifiersEx()} values (e.g. a move while the middle button is held is delivered as a
  * {@code MOUSE_DRAGGED}). A click event is synthesised on release when the cursor has not moved
  * since the press, matching AWT's own behaviour.
+ *
+ * <p><b>Key delivery.</b> AWT routes key events passed to {@code dispatchEvent} through the
+ * {@link java.awt.KeyboardFocusManager}, which retargets them to the current focus owner and drops
+ * them if there is none. {@link KeyDelivery#DISPATCH} (default) is faithful when the target
+ * component has keyboard focus; {@link KeyDelivery#LISTENERS} invokes the component's registered
+ * {@link java.awt.event.KeyListener}s directly and works regardless of focus (components that
+ * handle keys by overriding {@code processKeyEvent} instead of registering listeners will not see
+ * them). Mouse events are always dispatched to the component.
  */
 public final class AwtComponentBackend implements InputBackend {
 
+    /** How key events reach the component. */
+    public enum KeyDelivery { DISPATCH, LISTENERS }
+
     private final Component target;
+    private final KeyDelivery keyDelivery;
     private final AtomicInteger modifiers = new AtomicInteger();
     private volatile int x;
     private volatile int y;
@@ -27,7 +39,27 @@ public final class AwtComponentBackend implements InputBackend {
     private volatile boolean inside;
 
     public AwtComponentBackend(Component target) {
+        this(target, KeyDelivery.DISPATCH);
+    }
+
+    public AwtComponentBackend(Component target, KeyDelivery keyDelivery) {
         this.target = target;
+        this.keyDelivery = keyDelivery;
+    }
+
+    private void dispatchKey(KeyEvent e) {
+        if (keyDelivery == KeyDelivery.DISPATCH) {
+            target.dispatchEvent(e);
+            return;
+        }
+        for (java.awt.event.KeyListener l : target.getKeyListeners()) {
+            switch (e.getID()) {
+                case KeyEvent.KEY_PRESSED -> l.keyPressed(e);
+                case KeyEvent.KEY_RELEASED -> l.keyReleased(e);
+                case KeyEvent.KEY_TYPED -> l.keyTyped(e);
+                default -> { }
+            }
+        }
     }
 
     private void dispatch(java.awt.AWTEvent e) {
@@ -82,9 +114,9 @@ public final class AwtComponentBackend implements InputBackend {
     public synchronized void keyPress(int keyCode, char keyChar) {
         int mask = modifierMask(keyCode);
         int mods = mask != 0 ? modifiers.updateAndGet(m -> m | mask) : modifiers.get();
-        dispatch(new KeyEvent(target, KeyEvent.KEY_PRESSED, now(), mods, keyCode, keyChar));
+        dispatchKey(new KeyEvent(target, KeyEvent.KEY_PRESSED, now(), mods, keyCode, keyChar));
         if (keyChar != KeyEvent.CHAR_UNDEFINED) {
-            dispatch(new KeyEvent(target, KeyEvent.KEY_TYPED, now(), mods, KeyEvent.VK_UNDEFINED, keyChar));
+            dispatchKey(new KeyEvent(target, KeyEvent.KEY_TYPED, now(), mods, KeyEvent.VK_UNDEFINED, keyChar));
         }
     }
 
@@ -92,7 +124,7 @@ public final class AwtComponentBackend implements InputBackend {
     public synchronized void keyRelease(int keyCode, char keyChar) {
         int mask = modifierMask(keyCode);
         int mods = mask != 0 ? modifiers.updateAndGet(m -> m & ~mask) : modifiers.get();
-        dispatch(new KeyEvent(target, KeyEvent.KEY_RELEASED, now(), mods, keyCode, keyChar));
+        dispatchKey(new KeyEvent(target, KeyEvent.KEY_RELEASED, now(), mods, keyCode, keyChar));
     }
 
     private static int modifierMask(int keyCode) {

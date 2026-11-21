@@ -107,9 +107,12 @@ public final class LabWindow {
         replay.addActionListener(e -> canvas.replay());
         JButton export = new JButton("Export…");
         export.addActionListener(e -> export());
+        JButton evaluate = new JButton("Evaluate (300 trials)");
+        evaluate.addActionListener(e -> evaluate());
         row1.add(next);
         row1.add(replay);
         row1.add(export);
+        row1.add(evaluate);
         JPanel row2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         row2.setBorder(BorderFactory.createTitledBorder("Run A parameters"));
         row2.add(new JLabel("path"));
@@ -199,6 +202,41 @@ public final class LabWindow {
         }
         canvas.setRenderer(new ChartRenderer(runs, String.format("Seed %d · %.0f px to a %.0f×%.0f target", s, from.distance(target.center()), target.width(), target.height())));
         status.setText("Drag on the trajectory to move the start; right-click to move the target. " + runs.get(0).motion().describe());
+    }
+
+    /** Batch-evaluates the selected profiles (run A with its live parameters) on shared scenarios. */
+    private void evaluate() {
+        List<MovementProfile> selected = new ArrayList<>();
+        try {
+            selected.add(tunedFirst());
+        } catch (IllegalArgumentException ex) {
+            status.setText("Invalid parameters: " + ex.getMessage());
+            return;
+        }
+        for (int i = 1; i < pickers.size(); i++) {
+            String n = (String) pickers.get(i).getSelectedItem();
+            if (n != null && !n.equals("(none)")) selected.add(profiles.get(n));
+        }
+        long s = ((Integer) seed.getValue()).longValue();
+        status.setText("Evaluating " + selected.size() + " profiles on 300 shared scenarios…");
+        new javax.swing.SwingWorker<java.awt.image.BufferedImage, Void>() {
+            @Override
+            protected java.awt.image.BufferedImage doInBackground() {
+                var reports = ProfileEvaluator.evaluateAll(selected, 300, s);
+                return new EvaluationRenderer(reports, "Profile evaluation · 300 paired trials · seed " + s).image(1400, 860);
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    javax.swing.JLabel img = new javax.swing.JLabel(new javax.swing.ImageIcon(get()));
+                    JOptionPane.showMessageDialog(canvas, new javax.swing.JScrollPane(img), "Profile evaluation", JOptionPane.PLAIN_MESSAGE);
+                    status.setText("Evaluation done. Use 'bbnors-lab evaluate' for CSV/JSON reports.");
+                } catch (Exception ex) {
+                    status.setText("Evaluation failed: " + ex);
+                }
+            }
+        }.execute();
     }
 
     private void export() {
