@@ -26,6 +26,7 @@ official client. The project does **not** include detection-evasion functionalit
 | `bbnors-engine` | interaction manager, mouse, keyboard, camera, timing profiles, waits, schedulers | ✅ |
 | `bbnors-api` | `GameClient` SPI, queries, managers, pathfinding, script runtime, simulator | uses `GameClient` |
 | `bbnors-lab` | Swing visualizer, headless export, benchmark suite | ✅ (plus a simulator benchmark) |
+| `bbnors-runelite` | RuneLite plugin: official client `GameClient` adapter | uses RuneLite API |
 | `bbnors-examples` | example scripts against the simulator | — |
 
 ## Quick start

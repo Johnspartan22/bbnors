@@ -1,0 +1,18 @@
+description = 'RuneLite plugin adapter: bridges RuneLite\'s API to bbnors GameClient (learning experiment).'
+
+repositories {
+    maven { url 'https://repo.runelite.net' }
+}
+
+// RuneLite version — update to match your installed RuneLite.
+// Find it at: https://github.com/runelite/runelite/releases
+def runeliteVersion = '1.10.44'
+
+dependencies {
+    api project(':bbnors-api')
+
+    // compileOnly: RuneLite provides these at runtime when the plugin loads.
+    compileOnly "net.runelite:client:${runeliteVersion}"
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+}
