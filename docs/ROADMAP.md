@@ -17,7 +17,7 @@
 | Benchmarks | ✅ suite, three recorded runs |
 | Server bridge backend | ⏸ on hold: needs the target server environment identified and authorization confirmed |
 | Footage analysis | ⏳ blocked on recordings |
-| Official-client adapter | ⛔ out of scope (ARCHITECTURE §2) |
+| Official-client adapter | 🔧 in progress (learning experiment — ARCHITECTURE §2) |
 
 ## Prioritized remaining work
 

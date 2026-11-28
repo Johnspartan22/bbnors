@@ -32,8 +32,8 @@ comment saying why.
 | Measure before optimising; record results in PERFORMANCE.md, including negative ones | ADR-10 |
 | Update docs in the same commit as the code (see §9) | docs stay true |
 
-Out of scope for contributions: official-client hooks, injection, reflection or memory reading,
-and detection-evasion features (ARCHITECTURE §2).
+Out of scope for contributions: detection-evasion features and "anti-ban" mechanisms
+(ARCHITECTURE §2). Official client integration is in progress as a learning experiment.
 
 ## 3. Writing a script
 

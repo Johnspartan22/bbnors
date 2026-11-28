@@ -4,9 +4,15 @@ A modular interaction-simulation and automation framework in Java 21: movement m
 timing and scheduling, mouse/keyboard/camera input, interaction state management, a
 DreamBot-inspired scripting API, and a first-class visualization and benchmarking lab.
 
+**This is a learning experiment.** The project is being adapted to work with the official OSRS
+client, not just the built-in simulator. The goal is to learn how game automation frameworks
+interface with real clients — how `GameClient` adapters are built, how input delivery works
+against a live window, and how the framework's abstractions hold up outside a controlled
+simulation.
+
 The core is backend-agnostic. Game state comes in through one interface, `GameClient`, with a
-complete simulated backend for tests and development. The project deliberately does **not**
-include hooks into the official OSRS client or any detection-evasion functionality; see
+complete simulated backend for tests and development, and an in-progress adapter for the
+official client. The project does **not** include detection-evasion functionality; see
 [docs/ARCHITECTURE.md §2](docs/ARCHITECTURE.md).
 
 ![Movement comparison](docs/images/compare-laws.png)

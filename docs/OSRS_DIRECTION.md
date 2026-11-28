@@ -19,12 +19,13 @@ simulation environment. Three layers:
 (simulator, an authorized server bridge), not independent of OSRS. The framework layer should
 be unapologetically OSRS-shaped.
 
-Unchanged boundary: game state only through `GameClient` implementations for environments we own
-or are authorized to test; no memory reading, injection, reflection or hooking of the official
-client; no detection-evasion functionality. In practice that also excludes "anti-ban" features
-whose purpose is to make automation harder for operators to detect (break schedulers, fake idling,
-deliberate misclick generators). The existing movement variability stays what it is: a
-configurable simulation feature.
+**This is a learning experiment.** The project is being adapted to work with the official OSRS
+client to learn how automation frameworks interface with real game clients. Game state comes in
+through `GameClient` implementations (simulator for testing, official client adapter in
+progress). No detection-evasion functionality. In practice that also excludes "anti-ban"
+features whose purpose is to make automation harder for operators to detect (break schedulers,
+fake idling, deliberate misclick generators). The existing movement variability stays what it
+is: a configurable simulation feature.
 
 ## 2. Where the project stands (measured on commit `06f192d`)
 

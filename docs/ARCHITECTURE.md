@@ -23,19 +23,23 @@ Dependencies point one way. `core`, `motion` and `engine` never import anything 
 they are tested without any backend (55 of the 80 tests). Every module has zero third-party
 runtime dependencies; tests use JUnit 4.
 
-## 2. Scope boundary (what is deliberately not implemented)
+## 2. Scope boundary
+
+**This is a learning experiment.** The project is being adapted to work with the official OSRS
+client to learn how automation frameworks interface with real game clients.
 
 | In scope | Out of scope |
 |---|---|
-| Movement mathematics, timing, input, camera, interaction state | Game-state adapters that hook, inject into, reflect over or read the memory of the official OSRS client (modified or not) |
-| `GameClient` adapter interface + simulated reference backend | Anti-cheat bypasses, detection evasion, mechanisms to conceal automation |
+| Movement mathematics, timing, input, camera, interaction state | Anti-cheat bypasses, detection evasion, mechanisms to conceal automation |
+| `GameClient` adapter interface + simulated reference backend | "Anti-ban" features whose purpose is to make automation harder for operators to detect |
+| Official client adapter (learning experiment) | |
 | Input delivery to a component/window you control (`AwtComponentBackend`, `RobotBackend`) | |
 | Optional server-side bridge for a server you operate (roadmap) | |
 
-Reason for the first exclusion: an adapter for the official client works identically against
-Jagex's live servers, whatever server it is normally pointed at, so it would turn the framework
-into a live-game bot. Game state reaches $bbnors only through `GameClient` implementations such as
-the included simulator or a server-side bridge that only a server you run can provide.
+Game state reaches $bbnors through `GameClient` implementations: the included simulator for
+deterministic tests and development, and an in-progress adapter for the official client. The
+project is an educational exercise in understanding game-client integration, not a tool for
+undetected live-game automation.
 
 ## 3. Key components
 

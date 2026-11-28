@@ -52,5 +52,5 @@ window), or a backend of your own. The simulator implements both sides itself.
 | Backend | Status |
 |---|---|
 | `SimulatedGame` | complete; used by tests, examples, benchmarks |
+| Official OSRS client adapter | in progress (learning experiment — see ARCHITECTURE §2) |
 | Server bridge (state pushed by a plugin on a server you operate) | on hold until the server environment is identified and authorization to integrate is confirmed (ROADMAP P8) |
-| Hooks/injection/reflection/memory reading of the official OSRS client | **not provided** (see ARCHITECTURE §2) |
